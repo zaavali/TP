@@ -10,12 +10,12 @@ document.querySelector('form').addEventListener('submit', function (e) {
     }
 
     if (solde < 10 || solde > 2000) {
-        alert('Le solde doit être compris entre 10 et 2000.');
+        alert('Le solde  compris entre 10 et 2000.');
         e.preventDefault();
     }
 
     if (!['courant', 'epargne', 'entreprise'].includes(typeDeCompte)) {
-        alert('Le type de compte doit être courant, épargne ou entreprise.');
+        alert('Le type de compte.');
         e.preventDefault();
     }
 
