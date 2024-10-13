@@ -1,0 +1,39 @@
+<?php
+session_start();
+$pdo = new PDO('mysql:host=localhost;dbname=bancaire', 'root', '');
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+    $mdp = $_POST['mdp'];
+
+    $stmt = $pdo->prepare("SELECT * FROM client WHERE email = ?");
+    $stmt->execute([$email]);
+    $client = $stmt->fetch();
+
+    if ($client && password_verify($mdp, $client['mdp'])) {
+        $_SESSION['clientId'] = $client['clientId'];
+        header("Location: interface.php");  
+        exit;
+    } else {
+        echo "Identifiants incorrects.";
+    }
+}
+?>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<form method="POST" action="connexion.php"> 
+    <div class="form-group"> 
+        <label for="email">Email</label> 
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email" 
+required> 
+    </div> 
+    <div class="form-group"> 
+        <label for="mdp">Mot de passe</label> 
+        <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de 
+passe" required> 
+    </div> 
+    <button type="submit" class="btn btn-success mt-3">Se connecter</button> 
+</form> 
+<form action="index.php">
+    <button type="submit" class="btn btn-success mt-3">Accueil</button>
+</form>
